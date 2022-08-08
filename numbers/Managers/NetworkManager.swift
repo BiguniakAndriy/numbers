@@ -16,21 +16,17 @@ class NetworkManager {
     
     
     // MARK:- Get random number
-    func getDataIfYouAllow(allow: Bool) async -> Int? {
+    func getDataIfYouAllow(allow: Bool) async -> String? {
         
         // check allow and url
         guard allow == true,
         let url = URL(string: "https://www.random.org/integers/?num=1&min=1&max=99999&col=1&base=10&format=plain&rnd=new")
         else { return nil }
     
-        //get data
+        //get number
         do {
             let (data, _) = try await URLSession.shared.data(from: url)
-            //get number in string
-            guard let numberInString = String(data: data, encoding: String.Encoding.utf8)
-            else { return nil}
-            //return as Int
-            return Int(numberInString)
+            return String(data: data, encoding: String.Encoding.utf8)
         }
         catch let error {
             print(error)

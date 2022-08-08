@@ -12,8 +12,8 @@ class StorageModel : Object {
     
     @Persisted var number : String
     
-    convenience init(number: Int) {
+    convenience init(number: String) {
         self.init()
-        self.number = String(number)
+        self.number = number
     }
 }

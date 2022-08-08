@@ -13,37 +13,31 @@ class StorageManager {
     
     // MARK:- VARs
     static let shared = StorageManager()
-    private let realm = try! Realm()
+//    private let realm = try! Realm()
     private init() {}
     
     
     // MARK:- Save number in string
-    private func saveToTheRealm(number: Int) {
+    func saveToTheRealm(number: String) {
         do {
-            try self.realm.write {
+            let realm = try! Realm()
+            try realm.write {
                 realm.add(StorageModel(number: number))
             }
+            print("number \(number) is saved")
         }
         catch let error { print(error) }
     }
     
     
     // MARK:- Filter data by containing number
-    private func getNumbers(withNumber: Int) -> [Int] {
-        
-        // fetch numbers in string
-        let numbersInString = Array(realm.objects(StorageModel.self)
-            .where{ $0.number .contains(String(withNumber)) })
-        
-        var numbers : [Int] = []
-        
-        // convert to Int
-        for object in numbersInString {
-            if let intNumber = Int(object.number) {
-                numbers.append(intNumber)
-            }
-        }
-        
+    func getNumbers(withNumber: String) -> [String] {
+        // fetch numberObjects
+        let realm = try! Realm()
+        let numberObjects = realm.objects(StorageModel.self)
+            .where{ $0.number.contains(withNumber) }
+        // get numbers
+        let numbers = Array(numberObjects).map { $0.number }
         return numbers
     }
       
