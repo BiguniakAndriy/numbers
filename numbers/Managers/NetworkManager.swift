@@ -11,9 +11,7 @@ class NetworkManager {
     
     static let shared = NetworkManager()
     private init() {}
-    private let apiKey = "8c627fa2-167f-48e5-9258-a364633c78b7"
-    
-    
+//    private let apiKey = "8c627fa2-167f-48e5-9258-a364633c78b7"
     
     // MARK:- Get random number
     func getDataIfYouAllow(allow: Bool) async -> String? {

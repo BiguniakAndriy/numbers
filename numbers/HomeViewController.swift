@@ -64,11 +64,6 @@ class HomeViewController: UIViewController {
         
         NSLayoutConstraint.activate([
             
-            self.table.topAnchor.constraint(equalTo: self.view.topAnchor),
-            self.table.leftAnchor.constraint(equalTo: self.view.leftAnchor),
-            self.table.rightAnchor.constraint(equalTo: self.view.rightAnchor),
-            self.table.bottomAnchor.constraint(equalTo: self.view.centerYAnchor),
-            
             self.button.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.5),
             self.button.heightAnchor.constraint(equalToConstant: 50.0),
             self.button.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
@@ -83,6 +78,11 @@ class HomeViewController: UIViewController {
             self.activityIndicator.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
             self.activityIndicator.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.75),
             self.activityIndicator.heightAnchor.constraint(equalToConstant: 150.0),
+            
+            self.table.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 60),
+            self.table.leftAnchor.constraint(equalTo: self.view.leftAnchor),
+            self.table.rightAnchor.constraint(equalTo: self.view.rightAnchor),
+            self.table.bottomAnchor.constraint(equalTo: self.infoLabel.topAnchor, constant: -10),
         ])
     }
     
@@ -101,7 +101,6 @@ class HomeViewController: UIViewController {
         self.searchController.hidesNavigationBarDuringPresentation = false
         self.searchController.obscuresBackgroundDuringPresentation = false
         self.searchController.searchBar.placeholder = "Enter number or character"
-        
     }
     
     //label
@@ -140,14 +139,11 @@ class HomeViewController: UIViewController {
         
         if self.fetchingDataIsON {
             self.timer = Timer.scheduledTimer(withTimeInterval: 5, repeats: true, block: { [weak self] timer in
-                repeat {
                     // get random number
                     Task(priority: .medium) {
                         self!.fetchedNumber = await NetworkManager.shared.getDataIfYouAllow(allow: self!.fetchingDataIsON)
                     }
-                } while self!.fetchingDataIsON == false
             })
-            
             print("START fetching data")
         }
         else {
@@ -171,7 +167,7 @@ extension HomeViewController : UISearchResultsUpdating {
         // fetch data from realm
         self.numbersFromRealm = StorageManager.shared.getNumbers(withNumber: text)
         self.table.reloadData()
-//        print(self.numbersFromRealm)
+        
     }
 }
 

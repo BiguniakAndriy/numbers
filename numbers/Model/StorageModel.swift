@@ -12,6 +12,7 @@ class StorageModel : Object {
     
     @Persisted var number : String
     
+    // init
     convenience init(number: String) {
         self.init()
         self.number = number
